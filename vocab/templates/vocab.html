@@ -117,10 +117,11 @@
                           function(data) {
                             rsval = data.result.match;
                             console.log("rsval: " + rsval)
-                            if (rsval) {
+                            if (rsval == 0) {
                                $("#attempt").val("");
+                               window.location = "https://apple.com";
                             } else {
-                               (".message").html(txt+" is not a word");
+                               $(".message").html(txt+" is not a word");
                             }
                            }
                        );
