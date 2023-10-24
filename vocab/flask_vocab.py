@@ -79,7 +79,7 @@ def success():
 #   a JSON request handler
 #######################
 
-@app.route("/_check", methods=["POST"])
+@app.route("/_check", methods=["GET"])
 def check():
     """
     User has submitted the form with a word ('attempt')
@@ -92,10 +92,11 @@ def check():
     app.logger.debug("Entering check")
 
     # The data we need, from form and from cookie
-    text = flask.request.form["attempt"]
+    text = flask.request.args.get("attempt", type=str)
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
 
+    rslt = {"word_match": jumble and matches}
     # Is it good?
     in_jumble = LetterBag(jumble).contains(text)
     matched = WORDS.has(text)
@@ -115,6 +116,8 @@ def check():
     else:
         app.logger.debug("This case shouldn't happen!")
         assert False  # Raises AssertionError
+
+    # return flask.jsonify(response)
 
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
