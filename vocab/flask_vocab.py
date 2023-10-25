@@ -57,21 +57,6 @@ def index():
     app.logger.debug("At least one seems to be set correctly")
     return flask.render_template('vocab.html')
 
-#we arent using these
-
-#@app.route("/keep_going")
-#def keep_going():
-#    """
-#    After initial use of index, we keep the same scrambled
-#    word and try to get more matches
-#    """
-#    flask.g.vocab = WORDS.as_list()
-#    return flask.render_template('vocab.html')
-
-
-#@app.route("/success")
-#def success():
-#    return flask.render_template('success.html')
 
 
 #######################
@@ -109,35 +94,27 @@ def check():
         matches.append(text)
         app.logger.debug(matches)
         flask.session["matches"] = matches
-        rslt = {"match": 0}
-        if len(matches) >= flask.session["target_count"]:
-            return flask.redirect(flask.url_for("success"))
-        else:
-            return flask.jsonify(result=rslt)
+        rslt = {"match": 1}
+        if len(matches) >= flask.session["target_count"]:       # check if they have the target # of matches
+            rslt = {"match": 0}
+        return flask.jsonify(result=rslt)
     elif text in matches:
         #flask.flash("You already found {}".format(text))
-        rslt = {"match": 1}
+        rslt = {"match": 2}
         return flask.jsonify(result=rslt)
     elif not matched:
         #flask.flash("{} isn't in the list of words".format(text))
-        rslt = {"match": 2}
+        rslt = {"match": 3}
         return flask.jsonify(result=rslt)
     elif not in_jumble:
         #flask.flash(
         #    '"{}" can\'t be made from the letters {}'.format(text, jumble))
-        rslt = {"match": 3}
+        rslt = {"match": 4}
         return flask.jsonify(result=rslt)
     else:
         app.logger.debug("This case shouldn't happen!")
         assert False  # Raises AssertionError
 
-    
-
-    # Choose page:  Solved enough, or keep going?
-    if len(matches) >= flask.session["target_count"]:
-       return flask.redirect(flask.url_for("success"))
-    else:
-       return flask.jsonify(result=rslt)
 
     
 

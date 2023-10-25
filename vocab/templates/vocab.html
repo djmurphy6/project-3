@@ -81,14 +81,14 @@
             </div>
          </div>
          <br />
-         {% if session.matches|length is not equalto 0  %}
+         <!--{% if session.matches|length is not equalto 0  %}
          <h2>You found </h2>
          <p id="results">
             {% for match in session.matches %}
             {{ match }}
             {% endfor %}
          </p>
-         {% endif %}
+         {% endif %}-->
          {% with messages = get_flashed_messages() %}
          {% if messages %}
          <!-- Mismatch, already found, etc. "flashed" from Python -->
@@ -97,6 +97,12 @@
          {% endfor %}
          {% endif %}
          {% endwith %}
+
+         <h2 id="showHeader"> </h2> 
+         <p id="results">
+            {% for match in session.matches %}
+            {{ match }}
+            {% endfor %}
          <script>
             // Suppress normal form submission
             $("#entry").submit( function(event) {
@@ -117,11 +123,23 @@
                           function(data) {
                             rsval = data.result.match;
                             console.log("rsval: " + rsval)
-                            if (rsval == 0) {
-                               $("#attempt").val("");
-                               window.location = "https://apple.com";
+                            if (rsval == 1) {
+                              $("#showHeader").html("You Found");
+                              $("#results").append(txt+" ");
+                              $("#attempt").val("");
                             } else {
-                               $(".message").html(txt+" is not a word");
+                              if (rsval == 2) {
+                                    $(".message").html("You already found " + txt);
+                                    console.log("You already found " + txt)
+                              } else {
+                                 if (rsval == 3) {
+                                    $(".message").html(txt+" isn't in the list of words");
+                                    console.log(txt+" isn't in the list of words")
+                                 } else {
+                                    $(".message").html("\""+txt+"\" can\'t be made from the letters ");
+                                    console.log("\""+txt+"\" can\'t be made from the letters ")
+                                 }
+                              }
                             }
                            }
                        );
