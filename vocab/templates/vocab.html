@@ -104,6 +104,7 @@
 
                $.getJSON( "/_check", { text: txt },
                           function(data) {
+                           jumble = 
                             rsval = data.result.match;   // This gets a number, either 0, 1, 2, or 3
                             console.log("rsval: " + rsval)
                             if (rsval == 1 || rsval == 0) { // If correct word or won the game
@@ -113,14 +114,15 @@
                               $("#showHeader").html("You Found");
                               $("#results").append(txt+" ");   // Show correct words
                               $("#attempt").val("");           // Clear entry box
+                              $(".message").html("");
                             } else {
                               if (rsval == 2) {       // If word has already been found
-                                    $(".message").html("You already found " + txt);
-                                    console.log("You already found " + txt)
+                                    $(".message").html("You already found \""+txt+"\"");
+                                    console.log("You already found \""+txt+"\"")
                               } else {
                                  if (rsval == 3) {    // If word isn't in list 
-                                    $(".message").html(txt+" isn't in the list of words");
-                                    console.log(txt+" isn't in the list of words")
+                                    $(".message").html("\""+txt+"\" isn't in the list of words");
+                                    console.log("\""+txt+"\" isn't in the list of words")
                                  } else {             // Else word can't be spelled from the letters
                                     $(".message").html("\""+txt+"\" can\'t be made from the letters "); // ***Need to add jumble here
                                     console.log("\""+txt+"\" can\'t be made from the letters ")
