@@ -89,20 +89,19 @@
             {% endfor %}
          </p>
          {% endif %}-->
-         {% with messages = get_flashed_messages() %}
-         {% if messages %}
+         <!--{% with messages = get_flashed_messages() %}
+         {% if messages %}-->
          <!-- Mismatch, already found, etc. "flashed" from Python -->
-         {% for message in messages %}
-         <p class="message">{{ message }}</p>
+         <!--{% for message in messages %}
+         <p class="message"> </p>
          {% endfor %}
          {% endif %}
-         {% endwith %}
+         {% endwith %}-->
 
          <h2 id="showHeader"> </h2> 
-         <p id="results">
-            {% for match in session.matches %}
-            {{ match }}
-            {% endfor %}
+         <p id="results"> </p>
+
+         <p class="message"> </p>   
          <script>
             // Suppress normal form submission
             $("#entry").submit( function(event) {
@@ -123,7 +122,10 @@
                           function(data) {
                             rsval = data.result.match;
                             console.log("rsval: " + rsval)
-                            if (rsval == 1) {
+                            if (rsval == 1 || rsval == 0) {
+                              if(rsval == 0) {
+                                 window.location.href = "/success";
+                              }
                               $("#showHeader").html("You Found");
                               $("#results").append(txt+" ");
                               $("#attempt").val("");
