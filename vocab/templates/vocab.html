@@ -104,25 +104,25 @@
 
                $.getJSON( "/_check", { text: txt },
                           function(data) {
-                            rsval = data.result.match;
+                            rsval = data.result.match;   // This gets a number, either 0, 1, 2, or 3
                             console.log("rsval: " + rsval)
-                            if (rsval == 1 || rsval == 0) {
-                              if(rsval == 0) {
+                            if (rsval == 1 || rsval == 0) { // If correct word or won the game
+                              if(rsval == 0) {              // If user won, redirect to success
                                  window.location.href = "/success";
                               }
                               $("#showHeader").html("You Found");
-                              $("#results").append(txt+" ");
-                              $("#attempt").val("");
+                              $("#results").append(txt+" ");   // Show correct words
+                              $("#attempt").val("");           // Clear entry box
                             } else {
-                              if (rsval == 2) {
+                              if (rsval == 2) {       // If word has already been found
                                     $(".message").html("You already found " + txt);
                                     console.log("You already found " + txt)
                               } else {
-                                 if (rsval == 3) {
+                                 if (rsval == 3) {    // If word isn't in list 
                                     $(".message").html(txt+" isn't in the list of words");
                                     console.log(txt+" isn't in the list of words")
-                                 } else {
-                                    $(".message").html("\""+txt+"\" can\'t be made from the letters ");
+                                 } else {             // Else word can't be spelled from the letters
+                                    $(".message").html("\""+txt+"\" can\'t be made from the letters "); // ***Need to add jumble here
                                     console.log("\""+txt+"\" can\'t be made from the letters ")
                                  }
                               }

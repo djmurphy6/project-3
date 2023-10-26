@@ -102,16 +102,12 @@ def check():
             rslt = {"match": 0}
         return flask.jsonify(result=rslt)
     elif text in matches:
-        #flask.flash("You already found {}".format(text))
         rslt = {"match": 2}
         return flask.jsonify(result=rslt)
     elif not matched:
-        #flask.flash("{} isn't in the list of words".format(text))
         rslt = {"match": 3}
         return flask.jsonify(result=rslt)
     elif not in_jumble:
-        #flask.flash(
-        #    '"{}" can\'t be made from the letters {}'.format(text, jumble))
         rslt = {"match": 4}
         return flask.jsonify(result=rslt)
     else:
