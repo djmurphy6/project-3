@@ -81,7 +81,7 @@ def check():
     app.logger.debug("Entering check")
 
     # The data we need, from form and from cookie
-    text = flask.request.args.get("text", type=str)
+    text = flask.request.args.get("text", type=str)     # get text the user typed in
     app.logger.debug(text)
     jumble = flask.session["jumble"]
     matches = flask.session.get("matches", [])  # Default to empty list
@@ -92,7 +92,10 @@ def check():
     matched = WORDS.has(text)
 
     # Respond appropriately
-    if matched and in_jumble and not (text in matches):
+    # this sequence of if elses will send a number based on right or wrong 
+    # so that java script knows whats going on
+    # there are three "wrong" cases
+    if matched and in_jumble and not (text in matches):         # if word was a match
         # Cool, they found a new word
         matches.append(text)
         app.logger.debug(matches)
@@ -108,7 +111,7 @@ def check():
         rslt = {"match": 3}
         return flask.jsonify(result=rslt)
     elif not in_jumble:
-        rslt = {"match": 4}
+        rslt = {"match": jumble}        # send jumble to JavaScript
         return flask.jsonify(result=rslt)
     else:
         app.logger.debug("This case shouldn't happen!")
